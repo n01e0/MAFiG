@@ -35,6 +35,7 @@ func main(){
     ptr := 0 // コードのポインタ
     ci := 0 // コードのインデックス
     buf := make([]byte, 1) // 入出力用のバッファ
+    fmt.Println(code)
 
     for {
         switch code[ci]{
@@ -60,7 +61,7 @@ func main(){
 
         case JMP:
             if codebuf[ptr] == 0{
-                jc := 0
+                jc := 0     // jump counter
                 for {
                     ci ++
                     if code[ci] == JMP {
