@@ -1,4 +1,4 @@
-package main
+package  main
 
 import (
     "fmt"
@@ -17,11 +17,11 @@ const (
     GOL byte =  92 // \
 )
 
-var BUFCODE = 4096
+var TAPESIZE = 8192
 
 func main(){
     if len(os.Args) < 2 {
-        fmt.Println("Usage: " + os.Args[0] + " source file")
+        fmt.Println("Usage: " + os.Args[0] + " FILE")
         return
     }
 
@@ -31,50 +31,44 @@ func main(){
         fmt.Println("File read error")
     }
 
-    codebuf := make([]byte, BUFCODE, BUFCODE) // bufsize for code
-    cpt := 0 // pointer for code
-    ci := 0 // index for code
-    buf := make([]byte, 1) // buf for io
-    fmt.Println(src)
+    tape  := make([]byte, TAPESIZE, TAPESIZE)
+
+    ptr   := 0
+    si    := 0
+    var iobuf byte = 0
 
     for {
-        switch src[ci]{
+        switch src[si]{
         case INC:
-            cpt++
-            fmt.Printf("+")
+            ptr ++
 
         case DEC:
-            cpt--
-            fmt.Printf("-")
+            ptr --
 
         case NEX:
-            codebuf[cpt] ++
-            fmt.Printf(">")
+            tape[ptr] ++
 
         case PRE:
-            codebuf[cpt] --
-            fmt.Printf("<")
-
-        case RIT:
-            buf[0] = codebuf[cpt]
-            os.Stdout.Write(buf)
+            tape[ptr] --
 
         case RED:
-            os.Stdin.Read(buf)
-            codebuf[cpt] = buf[0]
-            fmt.Printf(",")
+            iobuf = tape[ptr]
+            fmt.Printf("%c",iobuf)
+
+        case RIT:
+            fmt.Scanf("%s",&iobuf)
+            tape[ptr] = iobuf
 
         case JMP:
-            fmt.Printf("[")
-            if codebuf[cpt] == 0 {
+            if tape[ptr] == 0 {
                 jc := 0
                 for {
-                    ci ++
-                    if src[ci] == JMP {
+                    si ++
+                    if tape[si] == JMP {
                         jc ++
-                    } else if src[ci] == GOL {
+                    } else if tape[si] == GOL {
                         jc --
-                        if jc < 0 {
+                        if jc <= 0 {
                             break
                         }
                     }
@@ -82,16 +76,15 @@ func main(){
             }
 
         case GOL:
-            fmt.Printf("]")
-            if codebuf[cpt] != 0 {
+            if tape[ptr] != 0 {
                 jc := 0
                 for {
-                    ci--
-                    if src[ci] == GOL {
-                        ci++
-                    } else if src[ci] == JMP {
-                        jc--
-                        if jc < 0 {
+                    si --
+                    if tape[si] == GOL {
+                        jc ++
+                    } else if tape[si] == JMP {
+                        jc --
+                        if jc <= 0 {
                             break
                         }
                     }
@@ -99,12 +92,13 @@ func main(){
             }
         }
 
-        ci++
+        si++
 
-        if ci >= len(src){
+        if si >= len(tape){
             break
         }
     }
-    fmt.Printf("\n")
-}
 
+
+
+}
