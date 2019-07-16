@@ -35,7 +35,6 @@ func main(){
     ptr := 0 // コードのポインタ
     ci := 0 // コードのインデックス
     buf := make([]byte, 1) // 入出力用のバッファ
-    fmt.Println(code)
 
     for {
         switch code[ci]{
