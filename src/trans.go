@@ -51,7 +51,7 @@ func main() {
 		fmt.Println("File create error")
 		return
 	}
-    // Cソースファイルの初期設定
+	// Cソースファイルの初期設定
 	err = cinit(ccode)
 	if err != nil {
 		fmt.Println("File init error")
@@ -59,84 +59,84 @@ func main() {
 	}
 
 	ci := 0 // コードのインデックス
-	/* 
-    コード解釈
-    各文字に対応するコードをCソースファイルに書き込む。
-    いちいちエラー処理もしてる
-    */
+	/*
+	   コード解釈
+	   各文字に対応するコードをCソースファイルに書き込む。
+	   いちいちエラー処理もしてる
+	*/
 	for ci < len(bfcode) {
 		switch bfcode[ci] {
 		case INC:
 			n, err := ccode.WriteString(PLUS)
-			if err != nil|| !(n > 0) {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case DEC:
 			n, err := ccode.WriteString(MINS)
-			if err != nil|| !(n > 0) {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case NEX:
 			n, err := ccode.WriteString("\n" + MORE)
-			if err != nil|| !(n > 0)   {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case PRE:
 			n, err := ccode.WriteString("\n" + LESS)
-			if err != nil|| !(n > 0)  {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case RIT:
 			n, err := ccode.WriteString("\n" + PROD + "\n")
-			if err != nil|| !(n > 0)  {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case RED:
 			n, err := ccode.WriteString("\n" + COMA + "\n")
-			if err != nil|| !(n > 0)  {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case JMP:
-            n, err := ccode.WriteString("\n" + LBRC + "\n")
-			if err != nil|| !(n > 0)  {
+			n, err := ccode.WriteString("\n" + LBRC + "\n")
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
 			ci++
 
 		case GOL:
 			n, err := ccode.WriteString("\n" + RBRC + "\n")
-			if err != nil|| !(n > 0)  {
+			if err != nil || !(n > 0) {
 				fmt.Println("File write error!")
-                ccode.Close()
-                return
+				ccode.Close()
+				return
 			}
-		    ci++
+			ci++
 
 		default:
 			ci++
