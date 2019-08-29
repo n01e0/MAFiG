@@ -8,7 +8,7 @@ import (
 
 // 各定義、ここ変えれば言語仕様変えられる
 const (
-	INC  byte   = 43 // +
+    INC  byte   = 43 // +
 	PLUS string = "(*ptr)++;"
 
 	DEC  byte   = 45 // -
